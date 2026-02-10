@@ -1,0 +1,18 @@
+Prompt 1:
+context: the entire thing is soo bad can we do one thing? delete the entire thing and start the entire project from scratch and create a proper landing page and a proper ecomm website with all the functionalities ? from auth to cart to checkout, and for now dont add payment integration, just make all hte order sucess after checking out form cart,
+
+GOAL: prepare a step by step execution plan that is task oriented and bite sided to create a proper website based on above context
+
+use next js and neon db , do protected routes and all everything
+
+NOTE: like a senior full stack web developer think of everyhting and make it into that task md file and based on that we will exicute it one by one, dont halucinate and create an end to end robut project ready doc md file
+
+ALSO I HAVE DELETED ALL THE THINGS FROM EARLIER EXCEPT THE IMAGES, IMAGES CAN BE USED WHEREVE NEEDED
+
+
+Prompt 2:
+Now you as a orchestrator agent and further using sub agents can you step by step exicute each and everything? and give me the final website in the end, preserving context and using it effectively and not halucinaitiong and following the execution plan
+
+-------------------------Finished----------------------------
+
+Prompt 3: this is what i am seeing on local host 3000 (It was blank page with boiler plate code)

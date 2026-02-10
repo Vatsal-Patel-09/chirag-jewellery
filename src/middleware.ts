@@ -4,12 +4,16 @@ import { NextResponse } from "next/server";
 const protectedRoutes = ["/checkout", "/orders", "/account"];
 const adminRoutes = ["/admin"];
 const authRoutes = ["/login", "/register"];
+const publicRoutes = ["/", "/products", "/cart"];
 
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
   const isAdmin = req.auth?.user?.role === "admin";
 
+  const isPublicRoute = publicRoutes.some((route) =>
+    nextUrl.pathname === route || nextUrl.pathname.startsWith(route + "/")
+  );
   const isProtectedRoute = protectedRoutes.some((route) =>
     nextUrl.pathname.startsWith(route)
   );
@@ -19,6 +23,11 @@ export default auth((req) => {
   const isAuthRoute = authRoutes.some((route) =>
     nextUrl.pathname.startsWith(route)
   );
+
+  // Allow public routes
+  if (isPublicRoute && !isProtectedRoute && !isAdminRoute) {
+    return NextResponse.next();
+  }
 
   // Redirect logged-in users away from auth pages
   if (isAuthRoute && isLoggedIn) {

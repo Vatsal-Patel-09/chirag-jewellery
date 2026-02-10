@@ -60,31 +60,33 @@
       '<button class="next_arrow"><i class="ion-chevron-right"></i></button>',
     responsive: [
       {
-        breakpoints: 400,
+        breakpoint: 1200,
         settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
+          slidesToShow: 4,
+          slidesToScroll: 4,
         },
       },
       {
-        breakpoints: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoints: 992,
+        breakpoint: 992,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
         },
       },
       {
-        breakpoints: 1200,
+        breakpoint: 768,
         settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          rows: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          rows: 2,
         },
       },
     ],
@@ -112,31 +114,31 @@
       '<button class="next_arrow"><i class="ion-chevron-right"></i></button>',
     responsive: [
       {
-        breakpoints: 400,
+        breakpoint: 1200,
         settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
+          slidesToShow: 4,
+          slidesToScroll: 4,
         },
       },
       {
-        breakpoints: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoints: 992,
+        breakpoint: 992,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
         },
       },
       {
-        breakpoints: 1200,
+        breakpoint: 768,
         settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
         },
       },
     ],
@@ -208,5 +210,31 @@
     $(this).addClass("active");
     $(".product-details-large .tab-pane").removeClass("active show");
     $(".product-details-large " + $href).addClass("active show");
+  });
+
+  // Mobile menu toggle
+  $(".mobile_menu_toggle").on("click", function () {
+    $(".main_menu").toggleClass("active");
+  });
+
+  // Mobile submenu toggle
+  $(".main_menu nav > ul > li > a").on("click", function (e) {
+    if ($(window).width() <= 991) {
+      var $parent = $(this).parent("li");
+      var $submenu = $parent.find(".sub_menu, .mega_menu").first();
+      if ($submenu.length) {
+        e.preventDefault();
+        $submenu.slideToggle(300);
+        $parent.siblings().find(".sub_menu, .mega_menu").slideUp(300);
+      }
+    }
+  });
+
+  // Close mobile menu on window resize to desktop
+  $(window).on("resize", function () {
+    if ($(window).width() > 991) {
+      $(".main_menu").removeClass("active");
+      $(".main_menu nav > ul > li .sub_menu, .main_menu nav > ul > li .mega_menu").removeAttr("style");
+    }
   });
 })(jQuery);

@@ -2503,6 +2503,467 @@ p {
 }
 
 /* ==========================================
+   AUTH PAGES (Login, Signup, Account, Checkout)
+   ========================================== */
+.auth_section {
+  padding: 50px 0 80px;
+  min-height: 70vh;
+}
+
+.auth_card {
+  background: #1f1f1f;
+  border: 1px solid #2d2d2d;
+  border-radius: 12px;
+  padding: 40px 35px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.auth_card h2 {
+  color: #ffffff;
+  font-family: "Baloo 2", serif;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.auth_subtitle {
+  color: #a0a0a0;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+
+.auth_field {
+  margin-bottom: 20px;
+}
+
+.auth_field label {
+  display: block;
+  color: #cccccc;
+  font-size: 13px;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.auth_input_wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  transition: border-color 0.3s;
+}
+
+.auth_input_wrap:focus-within {
+  border-color: #a8741a;
+}
+
+.auth_input_wrap i {
+  color: #666666;
+  font-size: 18px;
+  padding: 0 12px;
+  flex-shrink: 0;
+}
+
+.auth_input_wrap input {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 12px 12px 12px 0;
+  outline: none;
+}
+
+.auth_input_wrap input::placeholder {
+  color: #666666;
+}
+
+.auth_btn {
+  width: 100%;
+  background: #a8741a;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.auth_btn:hover {
+  background: #c4892a;
+  transform: translateY(-1px);
+}
+
+.auth_btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.auth_btn_small {
+  width: auto;
+  padding: 8px 20px;
+  font-size: 13px;
+  margin-top: 0;
+}
+
+.btn_loader i {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.auth_message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.auth_message.success {
+  background: rgba(40, 167, 69, 0.15);
+  border: 1px solid #28a745;
+  color: #28a745;
+}
+
+.auth_message.error {
+  background: rgba(220, 53, 69, 0.15);
+  border: 1px solid #dc3545;
+  color: #dc3545;
+}
+
+.auth_footer {
+  text-align: center;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #2d2d2d;
+}
+
+.auth_footer p {
+  color: #a0a0a0;
+  font-size: 14px;
+}
+
+.auth_footer p a {
+  color: #a8741a;
+  font-weight: 600;
+}
+
+.auth_footer p a:hover {
+  color: #c4892a;
+  text-decoration: underline;
+}
+
+.back_home {
+  color: #a0a0a0;
+  font-size: 13px;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.back_home:hover {
+  color: #a8741a;
+}
+
+/* ── Account Page ──────────────────────── */
+.account_card {
+  background: #1f1f1f;
+  border: 1px solid #2d2d2d;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.account_header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 30px;
+  border-bottom: 1px solid #2d2d2d;
+  background: linear-gradient(135deg, #242424 0%, #1a1a1a 100%);
+  flex-wrap: wrap;
+}
+
+.account_avatar {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: #a8741a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.account_info {
+  flex: 1;
+}
+
+.account_info h2 {
+  color: #fff;
+  font-size: 22px;
+  margin-bottom: 2px;
+  font-family: "Baloo 2", serif;
+  text-align: left;
+}
+
+.account_info p {
+  color: #a0a0a0;
+  font-size: 14px;
+  margin: 0;
+}
+
+.account_tabs {
+  display: flex;
+  border-bottom: 1px solid #2d2d2d;
+}
+
+.account_tab {
+  flex: 1;
+  background: none;
+  border: none;
+  color: #a0a0a0;
+  padding: 15px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+  border-bottom: 2px solid transparent;
+}
+
+.account_tab:hover {
+  color: #fff;
+}
+
+.account_tab.active {
+  color: #a8741a;
+  border-bottom-color: #a8741a;
+}
+
+.account_tab i {
+  margin-right: 6px;
+}
+
+.account_tab_content {
+  display: none;
+  padding: 25px;
+}
+
+.account_tab_content.active {
+  display: block;
+}
+
+.account_empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #a0a0a0;
+}
+
+.account_empty i {
+  font-size: 40px;
+  animation: spin 1.5s linear infinite;
+}
+
+/* ── Order Cards ───────────────────────── */
+.order_card {
+  background: #242424;
+  border: 1px solid #2d2d2d;
+  border-radius: 8px;
+  padding: 18px;
+  margin-bottom: 15px;
+}
+
+.order_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.order_id {
+  color: #a8741a;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.order_date {
+  color: #666;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.order_status {
+  font-size: 11px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.status_pending {
+  background: rgba(255, 193, 7, 0.15);
+  color: #ffc107;
+}
+
+.status_shipped {
+  background: rgba(0, 123, 255, 0.15);
+  color: #007bff;
+}
+
+.status_delivered {
+  background: rgba(40, 167, 69, 0.15);
+  color: #28a745;
+}
+
+.order_items {
+  margin-bottom: 10px;
+}
+
+.order_item_tag {
+  display: inline-block;
+  background: #2d2d2d;
+  color: #ccc;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin: 2px 4px 2px 0;
+}
+
+.order_total {
+  color: #a8741a;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: right;
+}
+
+/* ── Settings Page ─────────────────────── */
+.settings_section {
+  margin-bottom: 25px;
+}
+
+.settings_section h3 {
+  color: #a8741a;
+  font-size: 18px;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #2d2d2d;
+}
+
+.settings_row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.settings_label {
+  color: #a0a0a0;
+  font-size: 14px;
+}
+
+.settings_value {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ── Checkout Items ────────────────────── */
+.checkout_item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #2d2d2d;
+}
+
+.checkout_item:last-child {
+  border-bottom: 0;
+}
+
+.checkout_item_img {
+  width: 55px;
+  height: 55px;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.checkout_item_img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.checkout_item_info {
+  flex: 1;
+}
+
+.checkout_item_name {
+  display: block;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.checkout_item_qty {
+  color: #a0a0a0;
+  font-size: 12px;
+}
+
+.checkout_item_price {
+  color: #a8741a;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.checkout_total_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ── Auth pages responsive ─────────────── */
+@media only screen and (max-width: 767px) {
+  .auth_section {
+    padding: 30px 0 50px;
+  }
+  .auth_card {
+    padding: 25px 20px;
+  }
+  .auth_card h2 {
+    font-size: 24px;
+  }
+  .account_header {
+    padding: 20px;
+    flex-direction: column;
+    text-align: center;
+  }
+  .account_info h2 {
+    text-align: center;
+  }
+  .order_header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ==========================================
    MOBILE MENU TOGGLE BUTTON
    ========================================== */
 .mobile_menu_toggle {

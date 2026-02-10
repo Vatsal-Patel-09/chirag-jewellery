@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Ashirwaad Jewelry</title>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <div class="home_black_version">
+        <!-- Minimal header -->
+        <header class="header_area header_black">
+            <div class="header_middel">
+                <div class="container">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-auto">
+                            <div class="logo" style="padding:0;">
+                                <a href="../index.html"><img src="../images/logo/logo-ash.png" alt="Ashirwaad"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Checkout Section -->
+        <section class="auth_section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10 col-12">
+                        <h2 style="color:#fff;text-align:center;margin-bottom:30px;font-family:'Baloo 2',serif;">
+                            Checkout</h2>
+
+                        <div id="checkout_message" class="auth_message" style="display:none;"></div>
+
+                        <div class="row">
+                            <!-- Shipping Form -->
+                            <div class="col-lg-7 col-md-7">
+                                <div class="auth_card" style="margin-bottom:20px;">
+                                    <h3 style="color:#a8741a;margin-bottom:20px;font-size:20px;">Shipping Details</h3>
+                                    <form id="checkout_form">
+                                        <div class="auth_field">
+                                            <label for="ship_name">Full Name</label>
+                                            <div class="auth_input_wrap">
+                                                <i class="ion-person"></i>
+                                                <input type="text" id="ship_name" placeholder="Full name" required>
+                                            </div>
+                                        </div>
+                                        <div class="auth_field">
+                                            <label for="ship_phone">Phone</label>
+                                            <div class="auth_input_wrap">
+                                                <i class="ion-ios-telephone"></i>
+                                                <input type="tel" id="ship_phone" placeholder="Phone number" required>
+                                            </div>
+                                        </div>
+                                        <div class="auth_field">
+                                            <label for="ship_address">Address</label>
+                                            <div class="auth_input_wrap">
+                                                <i class="ion-ios-location"></i>
+                                                <input type="text" id="ship_address"
+                                                    placeholder="Street address, flat no." required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="auth_field">
+                                                    <label for="ship_city">City</label>
+                                                    <div class="auth_input_wrap">
+                                                        <i class="ion-ios-location-outline"></i>
+                                                        <input type="text" id="ship_city" placeholder="City" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="auth_field">
+                                                    <label for="ship_pin">PIN Code</label>
+                                                    <div class="auth_input_wrap">
+                                                        <i class="ion-pin"></i>
+                                                        <input type="text" id="ship_pin" placeholder="PIN code"
+                                                            required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="auth_field">
+                                            <label for="ship_state">State</label>
+                                            <div class="auth_input_wrap">
+                                                <i class="ion-ios-location-outline"></i>
+                                                <input type="text" id="ship_state" placeholder="State" required>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="auth_btn" id="place_order_btn">
+                                            <span class="btn_text"><i class="ion-bag"></i> Place Order</span>
+                                            <span class="btn_loader" style="display:none;">
+                                                <i class="ion-load-c"></i> Placing order...
+                                            </span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Order Summary -->
+                            <div class="col-lg-5 col-md-5">
+                                <div class="auth_card">
+                                    <h3 style="color:#a8741a;margin-bottom:20px;font-size:20px;">Order Summary</h3>
+                                    <div id="checkout_items"></div>
+                                    <div class="checkout_total_row"
+                                        style="border-top:1px solid #2d2d2d;padding-top:15px;margin-top:15px;">
+                                        <span style="color:#fff;font-weight:600;font-size:16px;">Total</span>
+                                        <span id="checkout_total"
+                                            style="color:#a8741a;font-weight:700;font-size:18px;">Rs. 0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="text-align:center;margin-top:25px;">
+                            <a href="../index.html" class="back_home">
+                                <i class="ion-arrow-left-c"></i> Continue Shopping
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="../js/github-db.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/cart.js"></script>
+    <script>
+        // Redirect if not logged in
+        if (!Auth.isLoggedIn()) {
+            window.location.href = 'login.html';
+        }
+
+        // Pre-fill name from account
+        const user = Auth.getUser();
+        if (user) {
+            document.getElementById('ship_name').value = user.name;
+            if (user.phone) document.getElementById('ship_phone').value = user.phone;
+        }
+
+        // Render cart items
+        function renderCheckoutCart() {
+            const items = Cart.getItems();
+            const container = document.getElementById('checkout_items');
+            const totalEl = document.getElementById('checkout_total');
+
+            if (items.length === 0) {
+                container.innerHTML = '<p style="color:#a0a0a0;text-align:center;">Your cart is empty.</p>';
+                totalEl.textContent = 'Rs. 0';
+                return;
+            }
+
+            container.innerHTML = items.map(function (item) {
+                return `
+                    <div class="checkout_item">
+                        <div class="checkout_item_img">
+                            <img src="../${item.image}" alt="${item.name}">
+                        </div>
+                        <div class="checkout_item_info">
+                            <span class="checkout_item_name">${item.name}</span>
+                            <span class="checkout_item_qty">Qty: ${item.qty}</span>
+                        </div>
+                        <span class="checkout_item_price">Rs. ${(item.price * item.qty).toLocaleString('en-IN')}</span>
+                    </div>
+                `;
+            }).join('');
+
+            totalEl.textContent = 'Rs. ' + Cart.getTotal().toLocaleString('en-IN');
+        }
+
+        renderCheckoutCart();
+
+        // Place order
+        document.getElementById('checkout_form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const btn = document.getElementById('place_order_btn');
+            const btnText = btn.querySelector('.btn_text');
+            const btnLoader = btn.querySelector('.btn_loader');
+            const msgBox = document.getElementById('checkout_message');
+
+            const shipping = {
+                name: document.getElementById('ship_name').value,
+                phone: document.getElementById('ship_phone').value,
+                address: document.getElementById('ship_address').value,
+                city: document.getElementById('ship_city').value,
+                pin: document.getElementById('ship_pin').value,
+                state: document.getElementById('ship_state').value,
+            };
+
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'inline';
+            btn.disabled = true;
+            msgBox.style.display = 'none';
+
+            try {
+                const result = await Cart.placeOrder(shipping);
+
+                if (result.ok) {
+                    msgBox.className = 'auth_message success';
+                    msgBox.innerHTML = `
+                        <strong>Order placed successfully!</strong><br>
+                        Order ID: ${result.orderId}<br>
+                        <a href="my-account.html" style="color:#a8741a;text-decoration:underline;">View My Orders</a>
+                    `;
+                    msgBox.style.display = 'block';
+                    renderCheckoutCart();
+                    btn.style.display = 'none';
+                } else {
+                    msgBox.className = 'auth_message error';
+                    msgBox.textContent = result.msg;
+                    msgBox.style.display = 'block';
+                    btnText.style.display = 'inline';
+                    btnLoader.style.display = 'none';
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                msgBox.className = 'auth_message error';
+                msgBox.textContent = 'Failed to place order. Please try again.';
+                msgBox.style.display = 'block';
+                btnText.style.display = 'inline';
+                btnLoader.style.display = 'none';
+                btn.disabled = false;
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+
+</html>

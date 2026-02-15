@@ -33,10 +33,10 @@ export default async function AdminProductsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-10">
         <div>
           <h1 className="text-2xl font-bold text-stone-900">Products</h1>
-          <p className="text-stone-500 text-sm mt-1">
+          <p className="text-stone-500 text-sm mt-2">
             {allProducts.length} products
           </p>
         </div>
@@ -49,8 +49,8 @@ export default async function AdminProductsPage() {
       </div>
 
       {allProducts.length === 0 ? (
-        <div className="bg-white rounded-xl border border-stone-200 p-12 text-center">
-          <Package size={48} className="mx-auto text-stone-300 mb-4" />
+        <div className="bg-white rounded-xl border border-stone-200 p-16 text-center">
+          <Package size={48} className="mx-auto text-stone-300 mb-6" />
           <p className="text-stone-500">No products yet.</p>
         </div>
       ) : (

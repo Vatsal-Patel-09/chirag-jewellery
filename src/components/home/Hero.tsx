@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 
 const slides = [
   {
@@ -31,79 +31,106 @@ const slides = [
 
 export default function Hero() {
   const [current, setCurrent] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const nextSlide = useCallback(() => {
+    setIsAnimating(true);
     setCurrent((prev) => (prev + 1) % slides.length);
+    setTimeout(() => setIsAnimating(false), 700);
   }, []);
 
   const prevSlide = () => {
+    setIsAnimating(true);
     setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
+    setTimeout(() => setIsAnimating(false), 700);
+  };
+
+  const goToSlide = (index: number) => {
+    if (index !== current && !isAnimating) {
+      setIsAnimating(true);
+      setCurrent(index);
+      setTimeout(() => setIsAnimating(false), 700);
+    }
   };
 
   useEffect(() => {
-    const timer = setInterval(nextSlide, 5000);
+    const timer = setInterval(nextSlide, 6000);
     return () => clearInterval(timer);
   }, [nextSlide]);
 
   return (
-    <section className="relative h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden">
+    <section className="relative h-[85vh] overflow-hidden bg-stone-900">
       {slides.map((slide, index) => (
         <div
           key={index}
-          className={`absolute inset-0 transition-opacity duration-700 ${
-            index === current ? "opacity-100" : "opacity-0"
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+            index === current ? "opacity-100 z-10" : "opacity-0 z-0"
           }`}
         >
-          <Image
-            src={slide.image}
-            alt={slide.title}
-            fill
-            className="object-cover"
-            priority={index === 0}
-          />
+          <div className={`absolute inset-0 transition-transform duration-[8000ms] ease-linear ${index === current ? "scale-105" : "scale-100"}`}>
+            <Image
+              src={slide.image}
+              alt={slide.title}
+              fill
+              className="object-cover"
+              priority={index === 0}
+            />
+          </div>
           <div className="absolute inset-0 bg-black/40" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center text-white px-4 max-w-2xl">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-4 animate-fade-in">
-                {slide.title}
-              </h1>
-              <p className="text-lg md:text-xl text-white/90 mb-8">
-                {slide.subtitle}
-              </p>
-              <Link
-                href={slide.link}
-                className="inline-block bg-amber-600 hover:bg-amber-700 text-white px-8 py-3.5 rounded-lg font-medium text-lg transition transform hover:scale-105"
-              >
-                {slide.cta}
-              </Link>
+          <div className="absolute inset-0 flex items-center justify-center z-20">
+            <div className="text-center text-white px-4 max-w-4xl">
+              <div className={`transition-all duration-1000 delay-300 ${
+                index === current ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}>
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-medium mb-6 leading-tight tracking-wide drop-shadow-lg">
+                  {slide.title}
+                </h1>
+                <p className="text-lg md:text-xl lg:text-2xl text-stone-100 mb-10 max-w-2xl mx-auto font-light tracking-wide leading-relaxed">
+                  {slide.subtitle}
+                </p>
+                <Link
+                  href={slide.link}
+                  className="inline-block border border-white/40 bg-white/10 backdrop-blur-sm text-white px-10 py-3 text-sm tracking-[0.2em] font-medium uppercase hover:bg-white hover:text-stone-900 transition-all duration-500 rounded-sm"
+                >
+                  {slide.cta}
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       ))}
 
-      {/* Navigation arrows */}
+      {/* Navigation arrows (Minimal) */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full backdrop-blur-sm transition"
+        disabled={isAnimating}
+        className="absolute left-6 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors z-20 p-4"
+        aria-label="Previous slide"
       >
-        <ChevronLeft size={24} />
+        <ChevronLeft className="w-8 h-8 font-light" strokeWidth={1} />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full backdrop-blur-sm transition"
+        disabled={isAnimating}
+        className="absolute right-6 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors z-20 p-4"
+        aria-label="Next slide"
       >
-        <ChevronRight size={24} />
+        <ChevronRight className="w-8 h-8 font-light" strokeWidth={1} />
       </button>
 
-      {/* Dots */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+      {/* Indicators */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-4 z-20">
         {slides.map((_, index) => (
           <button
             key={index}
-            onClick={() => setCurrent(index)}
-            className={`w-3 h-3 rounded-full transition ${
-              index === current ? "bg-amber-500 w-8" : "bg-white/50"
+            onClick={() => goToSlide(index)}
+            disabled={isAnimating}
+            className={`transition-all duration-500 rounded-full border border-white/50 ${
+              index === current
+                ? "bg-white w-3 h-3 scale-110"
+                : "bg-transparent w-3 h-3 hover:bg-white/30"
             }`}
+            aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>

@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { db } from "@/lib/db";
-import { products, categories } from "@/lib/db/schema";
+import { products } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { formatPrice } from "@/lib/utils";
+import { Star } from "lucide-react";
 
 export default async function FeaturedProducts() {
   let featuredProducts: any[] = [];
@@ -29,69 +30,61 @@ export default async function FeaturedProducts() {
   }
 
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-3">
-            Our Bestsellers
+    <section className="py-24 bg-stone-50">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
+        <div className="text-center mb-16">
+           <h2 className="text-4xl md:text-5xl font-serif text-stone-900 mb-6 tracking-tight">
+            Curated Excellence
           </h2>
-          <p className="text-stone-500 max-w-2xl mx-auto">
-            Handpicked favourites loved by our customers
+          <p className="text-stone-600 text-lg font-light tracking-wide max-w-2xl mx-auto">
+            Discover our most coveted pieces, chosen for their exceptional design and craftsmanship.
           </p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+        
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
           {featuredProducts.map((product) => {
-            const imageUrl = Array.isArray(product.images) && product.images.length > 0
+             const imageUrl = Array.isArray(product.images) && product.images.length > 0
               ? product.images[0]
               : "/images/product/1.jpg";
-            const price = typeof product.price === "string" ? parseFloat(product.price) : product.price;
-            const comparePrice = product.compareAtPrice
-              ? typeof product.compareAtPrice === "string"
-                ? parseFloat(product.compareAtPrice)
-                : product.compareAtPrice
-              : null;
+             const price = typeof product.price === "string" ? parseFloat(product.price) : product.price;
+            
             return (
               <Link
                 key={product.id}
                 href={`/products/${product.slug}`}
-                className="group"
+                className="group block"
               >
-                <div className="relative aspect-square rounded-xl overflow-hidden bg-stone-100 mb-3">
+                <div className="relative aspect-[4/5] overflow-hidden bg-white mb-6">
                   <Image
                     src={imageUrl}
                     alt={product.name}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
                   />
-                  {comparePrice && (
-                    <span className="absolute top-3 left-3 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-medium">
-                      Sale
-                    </span>
-                  )}
+                  {/* Subtle overlay on hover if desired */}
+                  <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  
+                  {/* Quick Add Button or similar could go here */}
                 </div>
-                <h3 className="font-medium text-stone-900 group-hover:text-amber-600 transition line-clamp-1">
-                  {product.name}
-                </h3>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="font-bold text-stone-900">
+                
+                <div className="text-center space-y-2">
+                  <h3 className="text-stone-900 font-medium text-lg leading-snug group-hover:text-amber-800 transition-colors font-serif">
+                    {product.name}
+                  </h3>
+                  <div className="text-stone-600 font-light tracking-wider">
                     {formatPrice(price)}
-                  </span>
-                  {comparePrice && (
-                    <span className="text-stone-400 line-through text-sm">
-                      {formatPrice(comparePrice)}
-                    </span>
-                  )}
+                  </div>
                 </div>
               </Link>
             );
           })}
         </div>
-        <div className="text-center mt-10">
+        <div className="text-center mt-20">
           <Link
             href="/products"
-            className="inline-block border-2 border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white px-8 py-3 rounded-lg font-medium transition"
+            className="inline-block border-b border-stone-900 text-stone-900 pb-1 text-sm tracking-[0.2em] font-medium uppercase hover:text-amber-700 hover:border-amber-700 transition-colors"
           >
-            View All Products
+            View All Creations
           </Link>
         </div>
       </div>

@@ -37,16 +37,16 @@ export default async function AdminOrdersPage() {
 
   return (
     <div>
-      <div className="mb-8">
+      <div className="mb-10">
         <h1 className="text-2xl font-bold text-stone-900">Orders</h1>
-        <p className="text-stone-500 text-sm mt-1">
+        <p className="text-stone-500 text-sm mt-2">
           {allOrders.length} orders
         </p>
       </div>
 
       {allOrders.length === 0 ? (
-        <div className="bg-white rounded-xl border border-stone-200 p-12 text-center">
-          <ShoppingCart size={48} className="mx-auto text-stone-300 mb-4" />
+        <div className="bg-white rounded-xl border border-stone-200 p-16 text-center">
+          <ShoppingCart size={48} className="mx-auto text-stone-300 mb-6" />
           <p className="text-stone-500">No orders yet.</p>
         </div>
       ) : (

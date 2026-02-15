@@ -24,9 +24,9 @@ export default function AuthLayout({
         </div>
       </div>
       {/* Right side - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-stone-50">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-10 md:p-16 bg-stone-50">
         <div className="w-full max-w-md">
-          <div className="flex justify-center mb-8 lg:hidden">
+          <div className="flex justify-center mb-10 lg:hidden">
             <Image
               src="/images/logo/logo-ash.png"
               alt="Chirag Jewellery"

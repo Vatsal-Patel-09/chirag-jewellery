@@ -32,12 +32,12 @@ export default async function OrdersPage() {
 
   if (userOrders.length === 0) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-20 text-center">
-        <Package size={64} className="mx-auto text-stone-300 mb-6" />
-        <h1 className="text-2xl font-serif font-bold text-stone-900 mb-3">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 py-24 text-center">
+        <Package size={64} className="mx-auto text-stone-300 mb-8" />
+        <h1 className="text-2xl font-serif font-bold text-stone-900 mb-4">
           No Orders Yet
         </h1>
-        <p className="text-stone-500 mb-8">
+        <p className="text-stone-500 mb-10">
           Start shopping to see your orders here.
         </p>
         <Link
@@ -51,16 +51,16 @@ export default async function OrdersPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-serif font-bold text-stone-900 mb-8">
+    <div className="max-w-4xl mx-auto px-6 md:px-8 py-12">
+      <h1 className="text-3xl font-serif font-bold text-stone-900 mb-10">
         My Orders
       </h1>
-      <div className="space-y-4">
+      <div className="space-y-5">
         {userOrders.map((order: any) => (
           <Link
             key={order.id}
             href={`/orders/${order.id}`}
-            className="block bg-white border border-stone-200 rounded-xl p-6 hover:border-amber-300 hover:shadow-sm transition"
+            className="block bg-white border border-stone-200 rounded-xl p-7 hover:border-amber-300 hover:shadow-sm transition"
           >
             <div className="flex items-center justify-between">
               <div>

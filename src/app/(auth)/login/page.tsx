@@ -4,7 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2, LogIn, Sparkles } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -43,22 +43,28 @@ export default function LoginPage() {
 
   return (
     <div>
-      <h2 className="text-3xl font-serif font-bold text-stone-900 mb-2">
-        Welcome Back
-      </h2>
-      <p className="text-stone-500 mb-8">
-        Sign in to your account to continue shopping
-      </p>
+      <div className="text-center mb-10">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 rounded-full mb-5">
+          <Sparkles className="w-4 h-4 text-amber-600" />
+          <span className="text-amber-700 font-semibold text-sm">Welcome Back</span>
+        </div>
+        <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-3">
+          Sign In to Your Account
+        </h2>
+        <p className="text-stone-600 text-lg">
+          Continue your jewellery shopping journey
+        </p>
+      </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
-          {error}
+        <div className="bg-gradient-to-r from-red-50 to-red-100 border-2 border-red-200 text-red-700 px-6 py-5 rounded-xl mb-8 animate-fade-in">
+          <p className="font-semibold">{error}</p>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-7">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-stone-700 mb-1.5">
+          <label htmlFor="email" className="block text-sm font-bold text-stone-700 mb-2">
             Email Address
           </label>
           <input
@@ -67,13 +73,13 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition bg-white"
+            className="w-full px-5 py-4 border-2 border-stone-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all bg-white text-base shadow-sm hover:border-amber-200"
             placeholder="you@example.com"
           />
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-stone-700 mb-1.5">
+          <label htmlFor="password" className="block text-sm font-bold text-stone-700 mb-2">
             Password
           </label>
           <div className="relative">
@@ -83,13 +89,13 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition bg-white pr-12"
+              className="w-full px-5 py-4 border-2 border-stone-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all bg-white pr-12 text-base shadow-sm hover:border-amber-200"
               placeholder="••••••••"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 transition"
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
@@ -99,19 +105,30 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 rounded-lg font-medium transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-700 hover:to-amber-600 text-white py-4 rounded-xl font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-105 text-lg"
         >
-          {loading && <Loader2 size={20} className="animate-spin" />}
-          {loading ? "Signing in..." : "Sign In"}
+          {loading ? (
+            <>
+              <Loader2 size={22} className="animate-spin" />
+              Signing in...
+            </>
+          ) : (
+            <>
+              <LogIn size={20} />
+              Sign In
+            </>
+          )}
         </button>
       </form>
 
-      <p className="mt-6 text-center text-stone-500">
-        Don&apos;t have an account?{" "}
-        <Link href="/register" className="text-amber-600 hover:text-amber-700 font-medium">
-          Create Account
-        </Link>
-      </p>
+      <div className="mt-10 pt-8 border-t-2 border-stone-100">
+        <p className="text-center text-stone-600">
+          Don&apos;t have an account?{" "}
+          <Link href="/register" className="text-amber-600 hover:text-amber-700 font-bold">
+            Create Account
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

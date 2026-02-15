@@ -1,11 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { SlidersHorizontal, X } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { SlidersHorizontal, X, ChevronDown } from "lucide-react";
 
-interface Props {
-  categories: any[];
+interface Category {
+  id?: string;
+  name: string;
+  slug: string;
+}
+
+interface ProductFiltersProps {
+  categories: Category[];
   currentCategory?: string;
   currentSort?: string;
   currentMaterial?: string;
@@ -14,194 +20,174 @@ interface Props {
   searchQuery?: string;
 }
 
-const materials = ["Gold", "Silver", "Diamond", "Rose Gold", "Platinum"];
 const sortOptions = [
-  { value: "newest", label: "Newest First" },
-  { value: "price_asc", label: "Price: Low to High" },
-  { value: "price_desc", label: "Price: High to Low" },
-  { value: "name_asc", label: "Name: A to Z" },
+  { name: "Newest Arrivals", value: "newest" },
+  { name: "Price: Low to High", value: "price_asc" },
+  { name: "Price: High to Low", value: "price_desc" },
+  { name: "Featured", value: "featured" },
 ];
 
 export default function ProductFilters({
   categories,
-  currentCategory,
-  currentSort,
-  currentMaterial,
-  currentMinPrice,
-  currentMaxPrice,
-  searchQuery,
-}: Props) {
+  currentCategory: propCurrentCategory,
+  currentSort: propCurrentSort,
+}: ProductFiltersProps) {
   const router = useRouter();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const searchParams = useSearchParams();
+  const [isOpen, setIsOpen] = useState(false);
+  const [sortOpen, setSortOpen] = useState(false);
 
-  const updateFilter = (key: string, value: string | undefined) => {
-    const params = new URLSearchParams();
-    if (currentCategory && key !== "category") params.set("category", currentCategory);
-    if (currentSort && key !== "sort") params.set("sort", currentSort);
-    if (currentMaterial && key !== "material") params.set("material", currentMaterial);
-    if (currentMinPrice && key !== "minPrice") params.set("minPrice", currentMinPrice);
-    if (currentMaxPrice && key !== "maxPrice") params.set("maxPrice", currentMaxPrice);
-    if (searchQuery && key !== "search") params.set("search", searchQuery);
+  // Use props if available, otherwise fallback to searchParams
+  const currentCategory = propCurrentCategory || searchParams.get("category") || "all";
+  const currentSort = propCurrentSort || searchParams.get("sort") || "newest";
 
-    if (value) {
-      params.set(key, value);
+  const handleCategoryChange = (slug: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (slug === "all") {
+      params.delete("category");
+    } else {
+      params.set("category", slug);
     }
-
+    // Reset page on filter change
     params.delete("page");
     router.push(`/products?${params.toString()}`);
+    setIsOpen(false);
   };
 
-  const clearAllFilters = () => {
-    router.push("/products");
+
+  const handleSortChange = (value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("sort", value);
+    router.push(`/products?${params.toString()}`);
+    setSortOpen(false);
   };
-
-  const hasActiveFilters = currentCategory || currentMaterial || currentMinPrice || currentMaxPrice || searchQuery;
-
-  const filterContent = (
-    <div className="space-y-6">
-      {/* Sort */}
-      <div>
-        <h3 className="font-semibold text-stone-900 mb-3">Sort By</h3>
-        <select
-          value={currentSort || "newest"}
-          onChange={(e) => updateFilter("sort", e.target.value)}
-          className="w-full px-3 py-2.5 border border-stone-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none"
-        >
-          {sortOptions.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Categories */}
-      <div>
-        <h3 className="font-semibold text-stone-900 mb-3">Categories</h3>
-        <div className="space-y-2">
-          <button
-            onClick={() => updateFilter("category", undefined)}
-            className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition ${
-              !currentCategory
-                ? "bg-amber-50 text-amber-700 font-medium"
-                : "text-stone-600 hover:bg-stone-50"
-            }`}
-          >
-            All Categories
-          </button>
-          {categories.map((cat: any) => (
-            <button
-              key={cat.slug || cat.id}
-              onClick={() => updateFilter("category", cat.slug)}
-              className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition ${
-                currentCategory === cat.slug
-                  ? "bg-amber-50 text-amber-700 font-medium"
-                  : "text-stone-600 hover:bg-stone-50"
-              }`}
-            >
-              {cat.name}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Material */}
-      <div>
-        <h3 className="font-semibold text-stone-900 mb-3">Material</h3>
-        <div className="space-y-2">
-          <button
-            onClick={() => updateFilter("material", undefined)}
-            className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition ${
-              !currentMaterial
-                ? "bg-amber-50 text-amber-700 font-medium"
-                : "text-stone-600 hover:bg-stone-50"
-            }`}
-          >
-            All Materials
-          </button>
-          {materials.map((mat) => (
-            <button
-              key={mat}
-              onClick={() => updateFilter("material", mat)}
-              className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition ${
-                currentMaterial === mat
-                  ? "bg-amber-50 text-amber-700 font-medium"
-                  : "text-stone-600 hover:bg-stone-50"
-              }`}
-            >
-              {mat}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Price Range */}
-      <div>
-        <h3 className="font-semibold text-stone-900 mb-3">Price Range</h3>
-        <div className="flex gap-2">
-          <input
-            type="number"
-            placeholder="Min"
-            defaultValue={currentMinPrice}
-            onBlur={(e) => updateFilter("minPrice", e.target.value || undefined)}
-            className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none"
-          />
-          <input
-            type="number"
-            placeholder="Max"
-            defaultValue={currentMaxPrice}
-            onBlur={(e) => updateFilter("maxPrice", e.target.value || undefined)}
-            className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none"
-          />
-        </div>
-      </div>
-
-      {/* Clear Filters */}
-      {hasActiveFilters && (
-        <button
-          onClick={clearAllFilters}
-          className="w-full py-2.5 text-sm text-red-600 hover:text-red-700 font-medium border border-red-200 rounded-lg hover:bg-red-50 transition"
-        >
-          Clear All Filters
-        </button>
-      )}
-    </div>
-  );
 
   return (
     <>
-      {/* Mobile filter toggle */}
-      <button
-        onClick={() => setMobileOpen(true)}
-        className="lg:hidden flex items-center gap-2 px-4 py-2.5 border border-stone-300 rounded-lg text-sm font-medium text-stone-700 hover:bg-stone-50 transition mb-4"
-      >
-        <SlidersHorizontal size={18} />
-        Filters
-      </button>
+      <div className="flex flex-col gap-8">
+        {/* Desktop Sidebar */}
+        <div className="hidden lg:block space-y-8">
+          {/* Categories */}
+          <div>
+            <h3 className="font-serif text-lg font-medium text-stone-900 mb-4 border-b border-stone-200 pb-2">Collections</h3>
+            <ul className="space-y-2">
+              {categories.map((cat) => (
+                <li key={cat.slug}>
+                  <button
+                    onClick={() => handleCategoryChange(cat.slug)}
+                    className={`text-sm w-full text-left py-1 hover:text-amber-800 transition-colors ${
+                      currentCategory === cat.slug
+                        ? "text-amber-700 font-semibold"
+                        : "text-stone-600 font-light"
+                    }`}
+                  >
+                    {cat.name}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-      {/* Mobile overlay */}
-      {mobileOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+          {/* Sort Desktop */}
+          <div>
+            <h3 className="font-serif text-lg font-medium text-stone-900 mb-4 border-b border-stone-200 pb-2">Sort By</h3>
+             <ul className="space-y-2">
+              {sortOptions.map((option) => (
+                <li key={option.value}>
+                  <button
+                    onClick={() => handleSortChange(option.value)}
+                    className={`text-sm w-full text-left py-1 hover:text-amber-800 transition-colors ${
+                      currentSort === option.value
+                        ? "text-amber-700 font-semibold"
+                        : "text-stone-600 font-light"
+                    }`}
+                  >
+                    {option.name}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Mobile Filter & Sort Triggers */}
+        <div className="lg:hidden flex items-center justify-between gap-4 py-4 border-b border-stone-200">
+           <button
+            onClick={() => setIsOpen(true)}
+            className="flex items-center gap-2 text-stone-800 font-medium"
+          >
+            <SlidersHorizontal size={18} />
+            <span>Filter</span>
+          </button>
+          
+          <div className="relative">
+             <button
+              onClick={() => setSortOpen(!sortOpen)}
+              className="flex items-center gap-2 text-stone-800 font-medium"
+            >
+              <span>Sort</span>
+              <ChevronDown size={16} />
+            </button>
+            {sortOpen && (
+              <div className="absolute right-0 top-full mt-2 w-48 bg-white shadow-xl border border-stone-100 z-50 py-2 rounded-lg">
+                {sortOptions.map((option) => (
+                   <button
+                    key={option.value}
+                    onClick={() => handleSortChange(option.value)}
+                    className={`w-full text-left px-4 py-2 text-sm hover:bg-stone-50 ${currentSort === option.value ? 'text-amber-700 font-medium' : 'text-stone-600'}`}
+                   >
+                     {option.name}
+                   </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Filter Overlay */}
+      {isOpen && (
+        <div
+          className="lg:hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+          onClick={() => setIsOpen(false)}
+        >
           <div
-            className="absolute inset-0 bg-black/40"
-            onClick={() => setMobileOpen(false)}
-          />
-          <div className="absolute right-0 top-0 bottom-0 w-80 bg-white p-6 overflow-y-auto">
+            className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-6 max-h-[80vh] overflow-y-auto animate-in slide-in-from-bottom"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-semibold">Filters</h2>
-              <button onClick={() => setMobileOpen(false)}>
-                <X size={24} />
+              <h3 className="text-xl font-serif text-stone-900">Filter Products</h3>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="p-2 hover:bg-stone-100 rounded-full transition-colors"
+              >
+                <X className="w-6 h-6" />
               </button>
             </div>
-            {filterContent}
+
+            <div className="space-y-8">
+              <div>
+                <h4 className="font-medium text-stone-900 mb-4 uppercase tracking-wider text-xs">Categories</h4>
+                <div className="grid grid-cols-2 gap-3">
+                  {categories.map((cat) => (
+                    <button
+                      key={cat.slug}
+                      onClick={() => handleCategoryChange(cat.slug)}
+                      className={`px-4 py-3 rounded-sm border text-sm transition-all ${
+                        currentCategory === cat.slug
+                          ? "border-amber-700 bg-amber-50 text-amber-800 font-medium"
+                          : "border-stone-200 text-stone-600 font-light"
+                      }`}
+                    >
+                      {cat.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
-
-      {/* Desktop sidebar */}
-      <div className="hidden lg:block w-64 flex-shrink-0">
-        <div className="sticky top-28">{filterContent}</div>
-      </div>
     </>
   );
 }

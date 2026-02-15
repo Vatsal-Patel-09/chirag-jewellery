@@ -55,13 +55,13 @@ export default async function AccountPage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-serif font-bold text-stone-900 mb-8">
+    <div className="max-w-5xl mx-auto px-6 md:px-8 py-12">
+      <h1 className="text-3xl font-serif font-bold text-stone-900 mb-10">
         My Account
       </h1>
 
       {/* Profile card */}
-      <div className="bg-white border border-stone-200 rounded-xl p-6 mb-8">
+      <div className="bg-white border border-stone-200 rounded-xl p-7 md:p-8 mb-10">
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center">
             <User size={28} className="text-amber-600" />
@@ -76,7 +76,7 @@ export default async function AccountPage() {
       </div>
 
       {/* Quick stats */}
-      <div className="grid sm:grid-cols-3 gap-4 mb-8">
+      <div className="grid sm:grid-cols-3 gap-5 mb-10">
         <Link
           href="/orders"
           className="bg-white border border-stone-200 rounded-xl p-5 hover:border-amber-300 hover:shadow-sm transition group"

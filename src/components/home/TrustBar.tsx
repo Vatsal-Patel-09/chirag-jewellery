@@ -1,28 +1,29 @@
 import { Truck, ShieldCheck, RotateCcw, Lock } from "lucide-react";
 
 const features = [
-  { icon: Truck, title: "Free Shipping", description: "On orders above ₹5,000" },
-  { icon: ShieldCheck, title: "Certified Jewellery", description: "100% authentic & hallmarked" },
-  { icon: RotateCcw, title: "30-Day Returns", description: "Easy return policy" },
-  { icon: Lock, title: "Secure Checkout", description: "100% secure payment" },
+  { icon: Truck, title: "Complimentary Shipping", description: "On all orders above ₹5,000" },
+  { icon: ShieldCheck, title: "Lifetime Authenticity", description: "Certified & hallmarked" },
+  { icon: RotateCcw, title: "30-Day Returns", description: "No questions asked" },
+  { icon: Lock, title: "Secure Transactions", description: "Encrypted & safe" },
 ];
 
 export default function TrustBar() {
   return (
-    <section className="bg-stone-50 py-10">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature) => (
-            <div key={feature.title} className="flex items-center gap-4">
-              <div className="bg-amber-100 p-3 rounded-full flex-shrink-0">
-                <feature.icon size={24} className="text-amber-700" />
+    <section className="bg-stone-50 border-b border-stone-200">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-stone-200">
+          {features.map((feature, idx) => (
+            <div 
+              key={feature.title} 
+              className="flex flex-col items-center text-center p-10 hover:bg-stone-100 transition-colors duration-300"
+            >
+              <div className="mb-4 text-stone-900">
+                <feature.icon size={28} strokeWidth={1} />
               </div>
-              <div>
-                <h3 className="font-semibold text-stone-900 text-sm md:text-base">
-                  {feature.title}
-                </h3>
-                <p className="text-stone-500 text-xs md:text-sm">{feature.description}</p>
-              </div>
+              <h3 className="font-serif font-medium text-stone-900 text-lg mb-2">
+                {feature.title}
+              </h3>
+              <p className="text-stone-500 text-sm font-light tracking-wide">{feature.description}</p>
             </div>
           ))}
         </div>

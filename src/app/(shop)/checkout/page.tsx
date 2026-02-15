@@ -91,12 +91,13 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-20 text-center">
-        <ShoppingBag size={64} className="mx-auto text-stone-300 mb-6" />
-        <h1 className="text-2xl font-serif font-bold text-stone-900 mb-3">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 py-24 text-center">
+        <div className="max-w-md mx-auto">
+        <ShoppingBag size={64} className="mx-auto text-stone-300 mb-8" />
+        <h1 className="text-2xl font-serif font-bold text-stone-900 mb-4">
           Your Cart is Empty
         </h1>
-        <p className="text-stone-500 mb-8">
+        <p className="text-stone-500 mb-10">
           Add some items to your cart before checking out.
         </p>
         <Link
@@ -105,18 +106,19 @@ export default function CheckoutPage() {
         >
           Browse Products
         </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-serif font-bold text-stone-900 mb-8">
+    <div className="max-w-7xl mx-auto px-6 md:px-8 py-12">
+      <h1 className="text-3xl font-serif font-bold text-stone-900 mb-10">
         Checkout
       </h1>
 
       {/* Step indicators */}
-      <div className="flex items-center gap-4 mb-10">
+      <div className="flex items-center gap-5 mb-12">
         <div className={`flex items-center gap-2 ${step >= 1 ? "text-amber-600" : "text-stone-400"}`}>
           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${step >= 1 ? "bg-amber-600 text-white" : "bg-stone-200 text-stone-500"}`}>
             {step > 1 ? <Check size={16} /> : "1"}
@@ -132,18 +134,18 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="grid lg:grid-cols-3 gap-10">
         {/* Main content */}
         <div className="lg:col-span-2">
           {step === 1 && (
-            <div className="bg-white border border-stone-200 rounded-xl p-6">
-              <div className="flex items-center gap-3 mb-6">
+            <div className="bg-white border border-stone-200 rounded-xl p-7 md:p-8">
+              <div className="flex items-center gap-3 mb-8">
                 <MapPin size={24} className="text-amber-600" />
                 <h2 className="text-xl font-semibold text-stone-900">
                   Shipping Address
                 </h2>
               </div>
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-5">
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-stone-700 mb-1.5">
                     Full Name *

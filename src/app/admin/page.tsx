@@ -99,23 +99,23 @@ export default async function AdminDashboard() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-10">
         <div>
           <h1 className="text-2xl font-bold text-stone-900">Dashboard</h1>
-          <p className="text-stone-500 text-sm mt-1">
+          <p className="text-stone-500 text-sm mt-2">
             Overview of your store
           </p>
         </div>
       </div>
 
       {/* Stats */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
         {statCards.map((stat) => {
           const Icon = stat.icon;
           return (
             <div
               key={stat.label}
-              className="bg-white rounded-xl p-5 border border-stone-200"
+              className="bg-white rounded-xl p-6 border border-stone-200"
             >
               <div className="flex items-center justify-between mb-3">
                 <div
@@ -134,7 +134,7 @@ export default async function AdminDashboard() {
 
       {/* Recent Orders */}
       <div className="bg-white rounded-xl border border-stone-200">
-        <div className="flex items-center justify-between p-6 border-b border-stone-100">
+        <div className="flex items-center justify-between p-7 border-b border-stone-100">
           <h2 className="text-lg font-semibold text-stone-900">
             Recent Orders
           </h2>

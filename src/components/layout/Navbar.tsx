@@ -72,7 +72,7 @@ export default function Navbar() {
             </a>
             <a href="mailto:info@chiragjewellery.com" className="hover:text-white transition flex items-center gap-2">
               <Mail size={12} />
-              info@chiragjewellery.com
+              info@ashirwaadjewellert.com
             </a>
           </div>
         </div>
